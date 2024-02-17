@@ -2,9 +2,15 @@
 
 namespace Products.Repository
 {
-    public interface IProductRepository
+    public interface IProductRepository<T>
     {
-        public IActionResult GetAllProduct();
-        public Task<IActionResult> getAllProduct();
+        List<T> getAll();
+        T getById(int id);
+
+        List<T> insert(T entity);
+
+        // List<T> Delete(int id);
+
+        // List<T> Update(T Entity);
     }
 }
