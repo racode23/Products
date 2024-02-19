@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Products.Repository;
+using Microsoft.EntityFrameworkCore;
+using Products.Data;
 using System.Net.WebSockets;
 
 namespace Products.Controllers
@@ -10,17 +11,17 @@ namespace Products.Controllers
     public class ProductsController : ControllerBase
 
     {
-        private readonly ProductRepository _ProductRepository;
-        public ProductsController(ProductRepository ProductRepository)
+        private readonly AppDbContext _appDbContext;
+        public ProductsController(AppDbContext appDbContext)
         {
-            _ProductRepository = ProductRepository;
+            this._appDbContext=appDbContext;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetProducts(int id) {
-           var result = _ProductRepository.getById(id);
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts() {
 
-            return Ok(result);
+            var Result =await _appDbContext.Products.ToListAsync();
+            return Ok(Result);
         }
     }
 }
